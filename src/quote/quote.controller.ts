@@ -2,21 +2,15 @@ import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CreateQuoteDto } from './dto/create-quote.dot';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { QuoteService } from './quote.service';
+import { Quote } from './schema/quote.schema';
 
 @Controller('quote')
 export class QuoteController {
   constructor(private quoteService: QuoteService) {}
 
   @Post()
-  saveQuote(
-    @Body() payload: CreateQuoteDto,
-    @Query('download') download: boolean,
-  ): string {
-    if (download) {
-      return 'Cotización guardada. Enviando PDF';
-    }
-
-    return 'Cotización guardada';
+  async saveQuote(@Body() payload: CreateQuoteDto): Promise<Quote> {
+    return await this.quoteService.create(payload);
   }
 
   @Get()

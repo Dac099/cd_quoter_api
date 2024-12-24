@@ -1,10 +1,14 @@
 import { Module } from '@nestjs/common';
-import { QuoteController } from './quote/quote.controller';
-import { QuoteService } from './quote/quote.service';
-
+import { QuoteModule } from './quote/quote.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 @Module({
-  imports: [],
-  controllers: [QuoteController],
-  providers: [QuoteService],
+  imports: [
+    ConfigModule.forRoot(),
+    QuoteModule,
+    MongooseModule.forRoot(process.env.MONGO_URI),
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
